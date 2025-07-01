@@ -7,11 +7,15 @@
 </head>
 <body>
     <%- include("partials/navbar")%>
-    <section>
-    <h1>Messages</h1>
-    <p>This will display all of our Messages</p>
-    <p>Some information will conditionally render based on user status</p>
-    <a href="/new-message">Add new message</a>
-</section>
+    <% if (locals.user) {%>
+        <h1>Messages</h1>
+        <p>This will display all our Messages</p>
+        <a href="/messages/new">Add new message</a>
+    <%} else {%>
+        <h1>You must login to access features</h1>
+        <a href="/login">Login</a>
+        <p>Not a member?</p>
+        <a href="/signup">Sign up now!</a>
+    <%}%>
 </body>
 </html>
