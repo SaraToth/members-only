@@ -1,12 +1,11 @@
 <nav>
     <ul>
         <li><a href="/">Home</a></li>
-        <li>
-            <% if (locals.user) {%>
-                <a href="/logout">Logout</a>
-            <%} else {%>
-                <a href="/login">Login</a>
-                <%}%>
-        </li>
+        <% if (locals.user) {%>
+            <li><a href="/messages">Messages</a></li>
+            <li><a href="/logout">Logout</a></li>
+        <%} else {%>
+            <a href="/login">Login</a>
+        <%}%>
     </ul>
 </nav>
