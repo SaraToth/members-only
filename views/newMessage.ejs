@@ -7,8 +7,20 @@
 </head>
 <body>
     <%- include("partials/navbar")%>
-    <h1>Post a new Message</h1>
-    <p>form will go here</p>
-    <a href="/messages">Back</a>
+        <% if (locals.user) {%>
+            <h1>Post a new Message</h1>
+            <form action="/messages/new" method="post">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+                <textarea name="content" id="content" placeholder="Type your message here" required></textarea>
+                <button type="submit">Post</button>
+            </form>
+            <a href="/messages">Back</a>
+    <%} else {%>
+        <h1>You must login to access features</h1>
+        <a href="/login">Login</a>
+        <p>Not a member?</p>
+        <a href="/signup">Sign up now!</a>
+    <%}%>
 </body>
 </html>
