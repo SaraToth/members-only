@@ -10,6 +10,12 @@
     <% if (locals.user) {%>
         <h1>Welcome <%=user.firstname%>!</h1>
         <p>Here's your dashboard</p>
+        <p>You are a <b><%=user.membership%></b> user</p>
+        <p>If you would like to join the clubhouse, enter the secret code below:</p>
+        <% if (user.membership === "basic") {%>
+            <%- include("partials/clubhouseForm")%>
+        <%}%>
+        <%- include("partials/messages")%>
     <% } else { %>
         <h1>Welcome!</h1>
         <p>Sign up to get started</p>
