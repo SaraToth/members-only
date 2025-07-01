@@ -115,4 +115,12 @@ const postClubhouse = [
     }),
 ];
 
-module.exports = { getIndex, getSignup, getLogin, postSignup, postLogin, getLogout, postClubhouse };
+const getMessages = (req, res) => {
+    res.render("/messages");
+}
+
+const getNewMessage = (req, res) => {
+    res.render("/messages/new");
+}
+
+module.exports = { getIndex, getSignup, getLogin, postSignup, postLogin, getLogout, postClubhouse, getMessages, getNewMessage };
