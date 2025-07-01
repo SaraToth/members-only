@@ -3,6 +3,7 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const pool = require("../db/pool");
 const queries = require("../db/queries");
+const passport = require("passport");
 
 
 // Sanitizer for names to be stored as proper nouns
@@ -40,7 +41,7 @@ const validateSignUp = [
 ]
 
 const getIndex = (req, res) => {
-    res.render("index");
+    res.render("index", { user: req.user});
 };
 
 const getSignup = (req, res) => {
@@ -67,8 +68,20 @@ const postSignup = [
     }),
 ];
 
-const postLogin = (req, res) => {
-    res.send("Posting: Login in ... feature in progress");
+const postLogin = (req, res, next) => {
+    passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/login"
+    }) (req, res, next);
 };
 
-module.exports = { getIndex, getSignup, getLogin, postSignup, postLogin };
+const getLogout = (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("/");
+    });
+};
+
+module.exports = { getIndex, getSignup, getLogin, postSignup, postLogin, getLogout };
