@@ -2,12 +2,21 @@ const express = require("express");
 const app = express();
 const path = require("node:path");
 const passport = require("passport");
+const session = require("express-session");
 require("./config/passport"); // Passport strategy setup
 
 const indexRouter = require("./routes/indexRouter");
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+
+// Login sessions for passport
+app.use(session({
+    secret: "Sabrina",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.session());
 
 // To parse data from POST requests
 app.use(express.urlencoded({ extended: false}));
