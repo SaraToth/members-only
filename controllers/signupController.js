@@ -3,8 +3,8 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const queries = require("../db/queries");
 const passport = require("passport");
+const { post } = require("../routes/indexRouter");
 require("dotenv").config();
-
 
 // Sanitizer for names to be stored as proper nouns
 const toProperNoun = (rawName) => {
@@ -40,24 +40,8 @@ const validateSignUp = [
         .custom((value, {req}) => value === req.body.password).withMessage("Passwords do not match"),
 ];
 
-const validateClubhouseCode = [
-    body("clubhouseCode")
-    .trim()
-    .notEmpty().withMessage("You must enter the code to join")
-    .matches(/^[A-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/).withMessage("Clubhouse code must be in all caps and may contain numbers or symbols."),
-]
-
-const getIndex = (req, res) => {
-    res.render("index", { user: req.user});
-};
-
 const getSignup = (req, res) => {
     res.render("sign-up");
-};
-
-const getLogin = (req, res) => {
-    const origin = req.query.origin;
-    res.render("login", {origin});
 };
 
 const postSignup = [
@@ -75,51 +59,4 @@ const postSignup = [
     }),
 ];
 
-const postLogin = (req, res, next) => {
-    passport.authenticate("local", {
-        successRedirect: "/",
-        failureRedirect: "/login"
-    }) (req, res, next);
-};
-
-const getLogout = (req, res, next) => {
-    req.logout((err) => {
-        if (err) {
-            return next(err);
-        }
-        res.redirect("/");
-    });
-};
-
-// needs form validation
-const postClubhouse = [
-    validateClubhouseCode,
-
-    asyncHandler(async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).render("/", { user: req.user, errors: errors.array()});
-        }
-        console.log(req.user);
-
-        const { clubhouseCode } = req.body;
-        if ( clubhouseCode === process.env.CLUBHOUSE_CODE) {
-            await queries.upgradeMembership(Number(req.user.id));
-            res.redirect("/");
-        } else {
-            return res.status(400).render("/", { 
-                user: req.user, 
-                errors: [{ msg: "Invalid clubhouse code." }]})
-        }
-    }),
-];
-
-const getMessages = (req, res) => {
-    res.render("/messages");
-}
-
-const getNewMessage = (req, res) => {
-    res.render("/messages/new");
-}
-
-module.exports = { getIndex, getSignup, getLogin, postSignup, postLogin, getLogout, postClubhouse, getMessages, getNewMessage };
+module.exports = { getSignup, postSignup };

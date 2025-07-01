@@ -6,6 +6,8 @@ const session = require("express-session");
 require("./config/passport"); // Passport strategy setup
 
 const indexRouter = require("./routes/indexRouter");
+const signupRouter = require("./routes/signupRouter");
+const messagesRouter = require("./routes/messagesRouter");
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -25,6 +27,8 @@ app.use(express.urlencoded({ extended: false}));
 app.use(passport.initialize());
 
 // Routes
+app.use("/messages", messagesRouter);
+app.use("/signup", signupRouter);
 app.use("/", indexRouter);
 
 // Error Handler
