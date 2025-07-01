@@ -51,8 +51,6 @@ CREATE TABLE IF NOT EXISTS messages (
     created_at TIMESTAMP NOT NULL,
     user_id INTEGER NOT NULL
 );
-
-INSERT INTO users (firstname, lastname, username, password, membership) VALUES ()
 `;
 
 
@@ -69,7 +67,7 @@ async function main() {
     // Seed test users to users table
     for (let user of users) {
         const hashedPassword = await bcrypt.hash(user.password, 10);
-        await pool.query("INSERT INTO users (firstname, lastname, username, password, membership) VALUES ($1, $2, $3, $4, 'basic')", [user.firstname, user.lastname, user.username, hashedPassword]);
+        await client.query("INSERT INTO users (firstname, lastname, username, password, membership) VALUES ($1, $2, $3, $4, 'basic')", [user.firstname, user.lastname, user.username, hashedPassword]);
         console.log(`Seeded user: ${user.firstname} ${user.lastname}`);
     }
     await client.end();
