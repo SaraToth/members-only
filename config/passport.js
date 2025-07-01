@@ -7,7 +7,7 @@ const queries = require("../db/queries");
 passport.use(
     new LocalStrategy(async (username, password, done) => {
         try {
-            await queries.findUserByUsername(username);
+            const user = await queries.findUserByUsername(username);
             if (!user) {
                 return done(null, false, { message: "Incorrect username"});
             }
