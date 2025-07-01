@@ -28,7 +28,7 @@ app.use(passport.initialize());
 
 // Routes
 app.use("/messages", messagesRouter);
-app.use("/signup", signupRouter);
+app.use("/sign-up", signupRouter);
 app.use("/", indexRouter);
 
 // Error Handler
