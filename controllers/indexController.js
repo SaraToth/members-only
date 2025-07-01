@@ -49,7 +49,6 @@ const postClubhouse = [
         if (!errors.isEmpty()) {
             return res.status(400).render("/", { user: req.user, errors: errors.array()});
         }
-        console.log(req.user);
 
         const { clubhouseCode } = req.body;
         if ( clubhouseCode === process.env.CLUBHOUSE_CODE) {
