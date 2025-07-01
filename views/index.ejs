@@ -6,8 +6,11 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Hello World</h1>
-    <p>This will be a page that says to sign up</p>
-    <p>Or this page will be the dashboard for a user and messages can be a partial view</p>
+    <%- include("partials/navbar") %>
+    <h1>Welcome!</h1>
+    <p>Sign up to get started</p>
+    <a href="/sign-up">Sign Up</a>
+    <p>Already a member? Login</p>
+    <a href="/login">Login</a>
 </body>
 </html>
