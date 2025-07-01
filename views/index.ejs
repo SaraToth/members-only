@@ -7,10 +7,15 @@
 </head>
 <body>
     <%- include("partials/navbar")%>
-    <h1>Welcome!</h1>
-    <p>Sign up to get started</p>
-    <a href="/sign-up">Sign Up</a>
-    <p>Already a member? Login</p>
-    <a href="/login">Login</a>
+    <% if (locals.user) {%>
+        <h1>Welcome <%=user.firstname%>!</h1>
+        <p>Here's your dashboard</p>
+    <% } else { %>
+        <h1>Welcome!</h1>
+        <p>Sign up to get started</p>
+        <a href="/sign-up">Sign Up</a>
+        <p>Already a member? Login</p>
+        <a href="/login">Login</a>
+     <% }%>
 </body>
 </html>
