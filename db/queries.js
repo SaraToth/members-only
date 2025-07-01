@@ -13,4 +13,9 @@ const upgradeMembership = async(userId) => {
     await pool.query("UPDATE users SET membership = 'clubhouse' WHERE id = $1", [userId]);
 };
 
-module.exports = { createUser, findUserByUsername, upgradeMembership };
+const postNewMessage = async(title, content, userId) => {
+    const timestamp = new Date();
+    await pool.query("INSERT INTO messages (title, content, user_id, created_at) VALUES ($1, $2, $3, $4)", [title, content, userId, timestamp]);
+};
+
+module.exports = { createUser, findUserByUsername, upgradeMembership, postNewMessage };

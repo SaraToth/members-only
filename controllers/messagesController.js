@@ -10,7 +10,12 @@ const getMessages = (req, res) => {
 }
 
 const getNewMessage = (req, res) => {
-    res.render("newMessage");
+    res.render("newMessage", {user: req.user});
 }
 
-module.exports = { getMessages, getNewMessage };
+const postNewMessage = asyncHandler(async (req, res) => {
+    await queries.postNewMessage(req.body.title, req.body.content, req.user.id);
+    res.redirect("/messages");
+});
+
+module.exports = { getMessages, getNewMessage, postNewMessage };
