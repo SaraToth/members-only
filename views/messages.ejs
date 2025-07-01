@@ -9,7 +9,7 @@
     <%- include("partials/navbar")%>
     <% if (locals.user) {%>
         <h1>Messages</h1>
-        <p>This will display all our Messages</p>
+        <%- include("partials/messageList")%>
         <a href="/messages/new">Add new message</a>
     <%} else {%>
         <h1>You must login to access features</h1>
