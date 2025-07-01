@@ -9,4 +9,8 @@ const findUserByUsername = async (username) => {
     return rows[0];
 };
 
-module.exports = { createUser, findUserByUsername };
+const upgradeMembership = async(userId) => {
+    await pool.query("UPDATE users SET membership = 'clubhouse' WHERE id = $1", [userId]);
+};
+
+module.exports = { createUser, findUserByUsername, upgradeMembership };

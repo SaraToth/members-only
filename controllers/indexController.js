@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const pool = require("../db/pool");
 const queries = require("../db/queries");
 const passport = require("passport");
+require("dotenv").config();
 
 
 // Sanitizer for names to be stored as proper nouns
@@ -38,6 +39,13 @@ const validateSignUp = [
     
     body("confirmPassword").trim()
         .custom((value, {req}) => value === req.body.password).withMessage("Passwords do not match"),
+];
+
+const validateClubhouseCode = [
+    body("clubhouseCode")
+    .trim()
+    .notEmpty().withMessage("You must enter the code to join")
+    .matches(/^[A-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/).withMessage("Clubhouse code must be in all caps and may contain numbers or symbols."),
 ]
 
 const getIndex = (req, res) => {
@@ -84,4 +92,27 @@ const getLogout = (req, res, next) => {
     });
 };
 
-module.exports = { getIndex, getSignup, getLogin, postSignup, postLogin, getLogout };
+// needs form validation
+const postClubhouse = [
+    validateClubhouseCode,
+
+    asyncHandler(async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).render("/", { user: req.user, errors: errors.array()});
+        }
+        console.log(req.user);
+
+        const { clubhouseCode } = req.body;
+        if ( clubhouseCode === process.env.CLUBHOUSE_CODE) {
+            await queries.upgradeMembership(Number(req.user.id));
+            res.redirect("/");
+        } else {
+            return res.status(400).render("/", { 
+                user: req.user, 
+                errors: [{ msg: "Invalid clubhouse code." }]})
+        }
+    }),
+];
+
+module.exports = { getIndex, getSignup, getLogin, postSignup, postLogin, getLogout, postClubhouse };
