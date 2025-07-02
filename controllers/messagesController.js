@@ -39,4 +39,11 @@ const postNewMessage = [
     }),
 ];
 
-module.exports = { getMessages, getNewMessage, postNewMessage };
+const deleteMessage = asyncHandler(async (req, res, next) => {
+    const { messageId } = req.params;
+    
+    await queries.deleteMessage(Number(messageId));
+    next();
+});
+
+module.exports = { getMessages, getNewMessage, postNewMessage, deleteMessage };
