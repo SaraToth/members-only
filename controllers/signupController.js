@@ -23,6 +23,7 @@ const validateSignUp = [
         .customSanitizer(toProperNoun),
 
     body("username")
+        .trim()
         .normalizeEmail()
         .isEmail().withMessage("Username must be a valid email address"),
 
@@ -50,6 +51,15 @@ const postSignup = [
         if (!errors.isEmpty()) {
             return res.status(400).render("sign-up", { errors: errors.array()});
         }
+
+        // Exists is true if email exists
+        const exists = await queries.doesEmailExist(req.body.username);
+        if (exists) {
+            return res.status(400).render("sign-up", {
+                errors: [{msg: "An account with that email already exists"}],
+            });
+        }
+
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         await queries.createUser(req.body.firstname, req.body.lastname, req.body.username, hashedPassword);
