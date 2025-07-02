@@ -7,6 +7,11 @@
                 Date: <%=message.created_at%>
                 Author: <%=message.firstname%> <%=message.lastname%>
             <%}%>
+            <% if (user.membership === 'admin') {%>
+                <form action="/messages/<%=message.id%>/delete" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            <%}%>
         </div>
     <%})%>
 <%} else {%>
