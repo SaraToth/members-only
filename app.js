@@ -4,6 +4,7 @@ const path = require("node:path");
 const passport = require("passport");
 const session = require("express-session");
 require("./config/passport"); // Passport strategy setup
+require("dotenv").config();
 
 const indexRouter = require("./routes/indexRouter");
 const signupRouter = require("./routes/signupRouter");
@@ -14,22 +15,27 @@ app.set("view engine", "ejs");
 
 // Login sessions for passport
 app.use(session({
-    secret: "Sabrina",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
+
+// Initialize Passport
+app.use(passport.initialize());
 app.use(passport.session());
 
 // To parse data from POST requests
 app.use(express.urlencoded({ extended: false}));
 
-// Initialize Passport
-app.use(passport.initialize());
 
 // Routes
 app.use("/messages", messagesRouter);
 app.use("/sign-up", signupRouter);
 app.use("/", indexRouter);
+
+app.use((req, res) => {
+    res.status(404).send("404");
+});
 
 // Error Handler
 app.use((err, req, res, next) => {
