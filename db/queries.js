@@ -9,6 +9,11 @@ const findUserByUsername = async (username) => {
     return rows[0];
 };
 
+const findUserById = async (id) => {
+    const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+    return rows[0];
+};
+
 const upgradeMembership = async(userId, membership) => {
     await pool.query("UPDATE users SET membership = $1 WHERE id = $2", [membership, userId]);
 };
@@ -32,4 +37,4 @@ const doesEmailExist = async(username) => {
     return (rows.length > 0);
 };
 
-module.exports = { createUser, findUserByUsername, upgradeMembership, postNewMessage, getAllMessages, deleteMessage, doesEmailExist };
+module.exports = { createUser, findUserByUsername, findUserById, upgradeMembership, postNewMessage, getAllMessages, deleteMessage, doesEmailExist };
