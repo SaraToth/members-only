@@ -18,4 +18,9 @@ const postNewMessage = async(title, content, userId) => {
     await pool.query("INSERT INTO messages (title, content, user_id, created_at) VALUES ($1, $2, $3, $4)", [title, content, userId, timestamp]);
 };
 
-module.exports = { createUser, findUserByUsername, upgradeMembership, postNewMessage };
+const getAllMessages = async() => {
+    const { rows } = await pool.query("SELECT * FROM messages");
+    return rows;
+};
+
+module.exports = { createUser, findUserByUsername, upgradeMembership, postNewMessage, getAllMessages };

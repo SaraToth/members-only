@@ -17,9 +17,11 @@ const validateNewMessage = [
         .isLength({max: 300 }).withMessage("Message cannot exceed 300 characters"),
 ];
 
-const getMessages = (req, res) => {
-    res.render("messages", {user: req.user});
-}
+const getMessages = asyncHandler(async (req, res) => {
+    // Get All messages
+    const messages = await queries.getAllMessages();
+    res.render("messages", {user: req.user, messages});
+});
 
 const getNewMessage = (req, res) => {
     res.render("newMessage", {user: req.user});

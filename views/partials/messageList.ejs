@@ -1,1 +1,12 @@
-<p>This is the list of messages</p>
+<% if(locals.messages.length > 0) {%>
+    <% messages.forEach((message) => {%>
+        <div>
+            <%=message.title%>
+            <%=message.content%>
+            Date: <%=message.created_at%>
+            Author: currently just user id <%=message.user_id%>
+        </div>
+    <%})%>
+<%} else {%>
+    <p>There are no messages</p>
+    <%}%>
