@@ -3,8 +3,10 @@
         <div>
             <%=message.title%>
             <%=message.content%>
-            Date: <%=message.created_at%>
-            Author: <%=message.firstname%> <%=message.lastname%>
+            <% if (user.membership === 'clubhouse' || user.membership === 'admin') {%>
+                Date: <%=message.created_at%>
+                Author: <%=message.firstname%> <%=message.lastname%>
+            <%}%>
         </div>
     <%})%>
 <%} else {%>
