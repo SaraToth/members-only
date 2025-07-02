@@ -27,4 +27,9 @@ const deleteMessage = async(messageId) => {
     await pool.query("DELETE FROM messages WHERE id = $1", [messageId]);
 };
 
-module.exports = { createUser, findUserByUsername, upgradeMembership, postNewMessage, getAllMessages, deleteMessage };
+const doesEmailExist = async(username) => {
+    const { rows } = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
+    return (rows.length > 0);
+};
+
+module.exports = { createUser, findUserByUsername, upgradeMembership, postNewMessage, getAllMessages, deleteMessage, doesEmailExist };

@@ -2,8 +2,6 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const queries = require("../db/queries");
-const passport = require("passport");
-const { post } = require("../routes/indexRouter");
 require("dotenv").config();
 
 // Sanitizer for names to be stored as proper nouns
