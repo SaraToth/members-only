@@ -1,20 +1,18 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
 const queries = require("../db/queries");
-const passport = require("passport");
 require("dotenv").config();
 
 const validateNewMessage = [
     body("title")
         .trim()
         .notEmpty().withMessage("Title cannot be empty")
-        .isLength({max: 60 }).withMessage("Title must be no more than 120 characters"),
+        .isLength({ max: 60 }).withMessage("Title must be no more than 120 characters"),
 
     body("content")
         .trim()
         .notEmpty().withMessage("Message content cannot be empty")
-        .isLength({max: 300 }).withMessage("Message cannot exceed 300 characters"),
+        .isLength({ max: 300 }).withMessage("Message cannot exceed 300 characters"),
 ];
 
 const getMessages = asyncHandler(async (req, res) => {
@@ -34,6 +32,7 @@ const postNewMessage = [
         if (!errors.isEmpty()) {
             return res.status(400).render("newMessage", {user: req.user, errors: errors.array()});
         }
+
         await queries.postNewMessage(req.body.title, req.body.content, req.user.id);
         res.redirect("/messages");
     }),
@@ -43,7 +42,8 @@ const deleteMessage = asyncHandler(async (req, res, next) => {
     const { messageId } = req.params;
     
     await queries.deleteMessage(Number(messageId));
-    next();
+    res.redirect("/messages");
 });
+
 
 module.exports = { getMessages, getNewMessage, postNewMessage, deleteMessage };
