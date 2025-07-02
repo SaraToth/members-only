@@ -1,7 +1,7 @@
 const pool = require("./pool");
 
-const createUser = async (firstName, lastName, userName, password) => {
-    await pool.query("INSERT INTO users (firstname, lastname, username, password, membership) VALUES ($1, $2, $3, $4, 'basic')", [firstName, lastName, userName, password]);
+const createUser = async (firstName, lastName, username, password) => {
+    await pool.query("INSERT INTO users (firstname, lastname, username, password, membership) VALUES ($1, $2, $3, $4, 'basic')", [firstName, lastName, username, password]);
 };
 
 const findUserByUsername = async (username) => {
