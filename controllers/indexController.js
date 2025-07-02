@@ -58,7 +58,7 @@ const postClubhouse = [
             await queries.upgradeMembership(Number(req.user.id), 'admin');
             res.redirect("/");
         } else {
-            return res.status(400).render("/", { 
+            return res.status(400).render("index", { 
                 user: req.user, 
                 errors: [{ msg: "Invalid clubhouse code." }]})
         }

@@ -13,6 +13,7 @@
         <p>You are a <b><%=user.membership%></b> user</p>
         <% if (user.membership === "basic") {%>
             <p>If you would like to join the clubhouse, enter the secret code below:</p>
+            <%- include("partials/errors")%>
             <%- include("partials/clubhouseForm")%>
         <%}%>
         <a href="/messages">Head to the message board</a>
