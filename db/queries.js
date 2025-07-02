@@ -9,8 +9,8 @@ const findUserByUsername = async (username) => {
     return rows[0];
 };
 
-const upgradeMembership = async(userId) => {
-    await pool.query("UPDATE users SET membership = 'clubhouse' WHERE id = $1", [userId]);
+const upgradeMembership = async(userId, membership) => {
+    await pool.query("UPDATE users SET membership = $1 WHERE id = $2", [membership, userId]);
 };
 
 const postNewMessage = async(title, content, userId) => {

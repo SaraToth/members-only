@@ -52,8 +52,10 @@ const postClubhouse = [
 
         const { clubhouseCode } = req.body;
         if ( clubhouseCode === process.env.CLUBHOUSE_CODE) {
-            await queries.upgradeMembership(Number(req.user.id));
+            await queries.upgradeMembership(Number(req.user.id), 'clubhouse');
             res.redirect("/");
+        } else if (clubhouseCode === process.env.ADMIN_CODE) {
+            await queries.upgradeMembership(Number(req.user.id), 'admin');
         } else {
             return res.status(400).render("/", { 
                 user: req.user, 
