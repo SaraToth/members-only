@@ -53,6 +53,17 @@ CREATE TABLE IF NOT EXISTS messages (
 );
 `;
 
+const messagesData = [
+['I just joined clubhouse!', "I won't tell you who I am though. It's a secret!", 1],
+['How do I join clubhouse?', "I want to join the clubhouse, but I don't know the code", 2],
+['DO NOT ask for the clubhouse code', "If you ask for the clubhouse code your messages will be deleted by admin", 4],
+['I am not a clubhouse member too', "Oh well, I'm too busy saving the world and all", 3],
+];
+
+const updateMembership = `
+UPDATE users SET membership = 'clubhouse' WHERE id = 1;
+UPDATE users SET membership = 'admin' WHERE id = 4;
+`;
 
 async function main() {
     console.log("seeding...");
@@ -70,6 +81,16 @@ async function main() {
         await client.query("INSERT INTO users (firstname, lastname, username, password, membership) VALUES ($1, $2, $3, $4, 'basic')", [user.firstname, user.lastname, user.username, hashedPassword]);
         console.log(`Seeded user: ${user.firstname} ${user.lastname}`);
     }
+
+    await client.query("UPDATE users SET membership = 'clubhouse' WHERE id = 1");
+    await client.query("UPDATE users SET membership = 'admin' WHERE id = 4");
+    console.log("Set clubhouse members and admin");
+
+
+    for (const [title, content, user_id] of messagesData) {
+        await client.query("INSERT INTO messages (title, content, created_at, user_id) VALUES ($1, $2, NOW(), $3)", [title, content, user_id]);
+    }
+    console.log("Seeded messages");
     await client.end();
 
     console.log("done");
