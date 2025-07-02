@@ -18,7 +18,6 @@ const validateNewMessage = [
 ];
 
 const getMessages = asyncHandler(async (req, res) => {
-    // Get All messages
     const messages = await queries.getAllMessages();
     res.render("messages", {user: req.user, messages});
 });

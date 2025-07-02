@@ -19,7 +19,7 @@ const postNewMessage = async(title, content, userId) => {
 };
 
 const getAllMessages = async() => {
-    const { rows } = await pool.query("SELECT * FROM messages");
+    const { rows } = await pool.query("SELECT firstname, lastname, title, content, created_at FROM messages INNER JOIN users ON messages.user_id = users.id");
     return rows;
 };
 
