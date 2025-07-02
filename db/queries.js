@@ -19,8 +19,12 @@ const postNewMessage = async(title, content, userId) => {
 };
 
 const getAllMessages = async() => {
-    const { rows } = await pool.query("SELECT firstname, lastname, title, content, created_at FROM messages INNER JOIN users ON messages.user_id = users.id");
+    const { rows } = await pool.query("SELECT messages.id, firstname, lastname, title, content, created_at FROM messages INNER JOIN users ON messages.user_id = users.id");
     return rows;
 };
 
-module.exports = { createUser, findUserByUsername, upgradeMembership, postNewMessage, getAllMessages };
+const deleteMessage = async(messageId) => {
+    await pool.query("DELETE FROM messages WHERE id = $1", [messageId]);
+};
+
+module.exports = { createUser, findUserByUsername, upgradeMembership, postNewMessage, getAllMessages, deleteMessage };
